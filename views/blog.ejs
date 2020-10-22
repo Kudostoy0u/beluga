@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href = "style.css" rel = "stylesheet"/>
+     
+     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+  <link rel="stylesheet" href="https://use.typekit.net/tzl3gvc.css">
+    
+    <title>Kudos Beluga</title>
+  </head>
+  <body class = "bg-dark">
+    <div class = "h-100 float-left bg-secondary w-15 position-fixed">
+      <div class = "side-item">
+        <div style = "height:3vh"></div>
+        Kudos Beluga
+        <h5 data-aos-delay = "500" data-aos="fade-right" >Full stack dev</h5>
+        </div>
+        <hr class = "hr">
+           <div data-aos="fade-right" data-aos-delay = "600" class = "side-item">
+            <a href = "/blog" class = "pointer text-dark">About me</a>
+          
+          </div>
+        <hr class = "hr">
+        <div data-aos="fade-right" data-aos-delay = "700" class = "side-item">
+          <a href = "/" class = "pointer ">Home</a>
+          </div>
+                    <hr class = "hr">
+          <div data-aos-delay = "900" data-aos="fade-right" class = "side-item">
+          <a href = "/stack" class = "pointer">My stack</a>
+          </div>
+          <hr class = "hr">
+          <div data-aos-delay = "1100" data-aos="fade-right" class = "side-item">
+          <a href = "/" class = "pointer">Blog</a>
+          </div>
+          
+          <div class = "side-item footer pointer">
+            <span class="iconify" data-icon="mdi-github" data-inline="false"></span>
+            <span class="iconify" data-icon="mdi-twitter" data-inline="false"></span>
+            <span class="iconify" data-icon="il-facebook" data-inline="false"></span>
+            </div>
+      </div>
+
+<div class = "container-fluid">
+<h1 data-aos = "fade-in" data-aos-duration = "2000" style = "margin-left:35vw;"class = "display-1 text-white position-relative">Recent posts...</h1>
+<%results.map(e => {%>
+  <div class="card transform-half w-90 p-2 float-right">
+        <div class="row no-gutters">
+            <div class="col-auto">
+                <img src="<%=e.picture%>" class="img-fluid wi-50" alt="">
+            </div>
+            <div class="col">
+                <div class="card-block px-2">
+                    <h1 class="card-title display-4"><%=e.title%></h1>
+                    <h4 class="card-text"><%=e.subtitle%></h4>
+                    
+                    <h3>By <%=e.name%></h3>
+                    
+                </div>
+                
+            </div>
+            <a href = "/post/<%=encodeURIComponent(e.title.replace(/ /g, "-"))%>" class = "btn btn-primary d-block card-footer w-100 bg-dark" href = "#">
+            
+            Go this post!
+       
+        </a>
+        </div>
+  </div>
+<% })%>
+
+</div>
+
+    <script>AOS.init();</script>
+    </body>
+  </html>

@@ -1,0 +1,56 @@
+<html>
+  <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href = "style.css" rel = "stylesheet"/>
+     
+     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+  <link rel="stylesheet" href="https://use.typekit.net/tzl3gvc.css">
+    
+    <title>Kudos Beluga</title>
+  </head>
+  <body class = "bg-light bodyy">
+  <div class = "bg-light display-fixed bg-dark float-left w-7-7 h-18">
+  <img src="https://www.w3schools.com/bootstrap4/img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle ml-1-5" style="width:60px;">
+  <h6 class = "text-white">Kudos Beluga</h6>
+  <a href = "/blog">
+<i style = "transform:scale(2); left:3vw;"class="fa fa-angle-left text-primary position-absolute"></i>
+</a>
+  </div>
+  <div class = "container-fluid w-75 text-center text-white">
+  <%if (results[0]) {%>
+  <h1 class = "display-1 shadow"><%=results[0].title%></h1>
+  <h1 class = "display-4 shadow"><%=results[0].subtitle%></h1>
+
+  <link rel = "stylesheet" href = "/poststyles.css"/>
+  </div>
+   <div class = "w-100 h-75 "></div>
+   <div class = "w-100 bg-light d-flex justify-content-center" style = "font-size:30px;"><div class = "" ></div><br><div class = "w-75"><br><%-results[0].post%></div></div>
+  
+  <script>
+
+  $(".bodyy").attr("style", `
+      background-image: url("<%-results[0].picture%>") ;
+
+  height: 100%; 
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  `)
+
+  </script>
+  <% } %>
+    <script>AOS.init();</script>
+
+    </body>
+  </html>

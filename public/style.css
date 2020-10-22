@@ -1,0 +1,50 @@
+.body {
+  overflow:hidden;
+}
+.w-15 {
+  width:15vw;
+font-family: proxima-nova;
+font-weight: 400;
+font-style: normal;
+}
+.side-item {
+  color:white;
+  text-align:center;
+  font-size:30px;
+  
+}
+.hr {
+  border:1px solid;
+  color:gray;
+}
+.footer {
+  position:absolute;
+  bottom:5px;
+  transform:scale(1.5);
+  margin-left:3.3vw;
+}
+.pointer {
+  cursor:pointer;
+}
+.group {
+ position:absolute;
+ margin-top:15vh;
+ height: auto;
+ top: 50%; left: 55%;
+	transform: translate(-50%, -55%);
+}
+.stack{
+  margin-right:-9vw;
+}
+.transform-half{
+  transform:scale(0.9);
+  position:relative; 
+  margin-right:-2.5vw;
+}
+.w-90 {
+  width:90%;
+}
+.wi-50 {
+  width:50vw;
+  padding-bottom:1vh;
+}
