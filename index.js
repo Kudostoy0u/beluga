@@ -7,7 +7,7 @@ const path = require("path")
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs')
-app.use(express.static("public"))
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
@@ -100,7 +100,11 @@ pool.connect((err, client, release) => {
 
 }
 const renderblog = (res,data,file) => {
+  if (data.length) {
 res.render(file,{"results" : data})
+  } else {
+    res.render("404")
+  }
 }
 
 app.post("/", function(req,res) {
