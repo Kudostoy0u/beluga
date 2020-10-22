@@ -1,8 +1,10 @@
+ const express = require('express');
+ const Sentry = require('@sentry/node');
+ const Tracing = require("@sentry/tracing");
 const {Pool} = require('pg');
 require('dotenv').config()
 const bp = require("body-parser")
 let cookieParser = require('cookie-parser');
-const express = require('express');
 const path = require("path")
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -20,18 +22,21 @@ const pool = new Pool({
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 })
-//const Airbrake = require('@airbrake/node');
-//const airbrakeExpress = require('@airbrake/node/dist/instrumentation/express');
-/*
-const airbrake = new Airbrake.Notifier({
-  projectId: 308942,
-  projectKey: '6380c369f20d00d34dc220bc4ee1964f',
+Sentry.init({
+  dsn: "https://00bec2ac8f794d98abfdba65b9f12c48@o465848.ingest.sentry.io/5479247",
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app }),
+  ],
+
+  tracesSampleRate: 1.0,
 });
-*/
-// This middleware should be added before any routes are defined
-//app.use(airbrakeExpress.makeMiddleware(airbrake));
 
 
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
 app.get("/", function(req,res) {
    res.render('index')   
 })
@@ -137,6 +142,12 @@ app.post("/blog", function(req,res) {
   res.cookie("verify", req.body.cookie);
   res.send("success")
 })
+app.use(Sentry.Handlers.errorHandler());
+
+app.use(function onError(err, req, res, next) {
+  res.statusCode = 500;
+  res.end(res.sentry + "\n");
+});
 app.listen(8080, () => {
   console.log('server started');
 });
