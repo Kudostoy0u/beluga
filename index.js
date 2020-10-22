@@ -18,7 +18,16 @@ const pool = new Pool({
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 })
+const Airbrake = require('@airbrake/node');
+const airbrakeExpress = require('@airbrake/node/dist/instrumentation/express');
 
+const airbrake = new Airbrake.Notifier({
+  projectId: 308942,
+  projectKey: '6380c369f20d00d34dc220bc4ee1964f',
+});
+
+// This middleware should be added before any routes are defined
+app.use(airbrakeExpress.makeMiddleware(airbrake));
 
 app.get("/", function(req,res) {
    res.status(200).render('index')   
@@ -115,6 +124,7 @@ if (req.cookies.verify == process.env.SECRET) {
 
 }
 })
+app.use(airbrakeExpress.makeErrorHandler(airbrake));
 app.listen(8080, () => {
   console.log('server started');
 });
