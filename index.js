@@ -54,6 +54,8 @@ app.get("/:key", function(req,res) {
      res.render("404")
    }
    break;
+   case "cookie":
+   res.render("cookie")
    default:
    res.render("404")
  }
@@ -131,7 +133,10 @@ if (req.cookies.verify == process.env.SECRET) {
 
 }
 })
-
+app.post("/blog", function(req,res) {
+  res.cookie("verify", req.body.cookie);
+  res.send("success")
+})
 app.listen(8080, () => {
   console.log('server started');
 });
