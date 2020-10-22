@@ -1,4 +1,5 @@
 const {Pool} = require('pg');
+require('dotenv').config()
 const bp = require("body-parser")
 let cookieParser = require('cookie-parser');
 const express = require('express');
