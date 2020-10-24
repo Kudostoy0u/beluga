@@ -10,6 +10,18 @@ var yyyy = today.getFullYear();
 today = mm + '/' + dd + '/' + yyyy;
   $(".mybtn").on("click", function() {
     $.post("/", {"date": today, "title" : $(".titleinputt").val(), "subtitle": $(".subinputt").val(), "picture": $(".linkinputt").val(), "post" : document.querySelector(".ql-editor").innerHTML}, function(data) {
-
+if (data == "success") {
+       Swal.fire(
+  'Succesfully sent!',
+  'The post was sent!',
+  'success'
+)
+} else {
+  Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Something went wrong!'
+})
+}
     })
   })

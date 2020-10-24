@@ -1,8 +1,11 @@
+ const express = require('express');
+const Sentry = require('@sentry/node');
+ const Tracing = require("@sentry/tracing");
 const {Pool} = require('pg');
+
 require('dotenv').config()
 const bp = require("body-parser")
 let cookieParser = require('cookie-parser');
-const express = require('express');
 const path = require("path")
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
@@ -20,23 +23,28 @@ const pool = new Pool({
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 })
-//const Airbrake = require('@airbrake/node');
-//const airbrakeExpress = require('@airbrake/node/dist/instrumentation/express');
-/*
-const airbrake = new Airbrake.Notifier({
-  projectId: 308942,
-  projectKey: '6380c369f20d00d34dc220bc4ee1964f',
-});
-*/
-// This middleware should be added before any routes are defined
-//app.use(airbrakeExpress.makeMiddleware(airbrake));
+Sentry.init({
+  dsn: "https://00bec2ac8f794d98abfdba65b9f12c48@o465848.ingest.sentry.io/5479247",
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app }),
+  ],
 
+  tracesSampleRate: 1.0,
+});
+
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
 
 app.get("/", function(req,res) {
    res.render('index')   
 })
 
 app.get("/:key", function(req,res) {
+  
  switch (req.params.key) {
    case "blog":
    posts(res,renderblog,"blog",undefined)
@@ -49,8 +57,12 @@ app.get("/:key", function(req,res) {
    break;
    case "create":
    if (req.cookies.verify == process.env.SECRET) {
-    res.render("create")
-   } else {
+    res.render("create", {"namehh" : "Kudos Beluga"})
+   } else if (req.cookies.verify == process.env.AYUSH) {
+     res.render("create", {"namehh" : "Ayush Kulkarni"})
+   } else if (req.cookies.verify == process.env.ANISH) {
+     res.render("create", {"namehh" : "Anish T"})
+   }else {
      res.render("404")
    }
    break;
@@ -86,7 +98,7 @@ pool.connect((err, client, release) => {
     }
     });
     } else {
-            client.query(`SELECT * FROM blogs `, (err,result) => {
+            client.query(`SELECT * FROM blogs WHERE verified`, (err,result) => {
       release()
     if (err) {
       throw err
@@ -110,20 +122,31 @@ res.render(file,{"results" : data})
 }
 
 app.post("/", function(req,res) {
+if ((req.cookies.verify == process.env.SECRET)||(req.cookies.verify == process.env.AYUSH) || (req.cookies.verify == process.env.ANISH)) {
 if (req.cookies.verify == process.env.SECRET) {
-
-  var query = "INSERT INTO blogs (date,title,subtitle,picture,post,name) VALUES ($1,$2,$3, $4, $5,$6)"
-  var params = [req.body.date,req.body.title,req.body.subtitle,req.body.picture,req.body.post,"Kudos Beluga"]
+  var query = "INSERT INTO blogs (date,title,subtitle,picture,post,name,verified) VALUES ($1,$2,$3, $4, $5,$6,$7)"
+  var params = [req.body.date,req.body.title,req.body.subtitle,req.body.picture,req.body.post,"Kudos Beluga",true]
+} else if (req.cookies.verify == process.env.AYUSH ) {
+  var query = "INSERT INTO blogs (date,title,subtitle,picture,post,name,verified) VALUES ($1,$2,$3, $4, $5,$6,$7)"
+  var params = [req.body.date,req.body.title,req.body.subtitle,req.body.picture,req.body.post,"Ayush K.",false]
+} else if (req.cookies.verify == process.env.ANISH ) {
+  var query = "INSERT INTO blogs (date,title,subtitle,picture,post,name,verified) VALUES ($1,$2,$3, $4, $5,$6,$7)"
+  var params = [req.body.date,req.body.title,req.body.subtitle,req.body.picture,req.body.post,"Anish T.",false]
+}
   pool.connect((err, client, release) => {
   if (err) {
+    res.send("error")
     return console.error('Error acquiring client', err.stack)
+    
   } else {
     console.log("yes!")
         client.query(query,params, (err,result) => {
           release()
     if (err) {
+      res.send("error")
       throw err
     } else {
+      res.send("success")
       console.log("success")
     } 
   });
@@ -137,6 +160,12 @@ app.post("/blog", function(req,res) {
   res.cookie("verify", req.body.cookie);
   res.send("success")
 })
-app.listen(8080, () => {
+app.use(Sentry.Handlers.errorHandler());
+
+app.use(function onError(err, req, res, next) {
+  res.statusCode = 500;
+  res.end(res.sentry + "\n");
+});
+app.listen(3000, () => {
   console.log('server started');
 });

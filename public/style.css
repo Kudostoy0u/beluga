@@ -46,5 +46,7 @@ font-style: normal;
 }
 .wi-50 {
   width:50vw;
+  min-height:30vh;
+  max-height:60vh;
   padding-bottom:1vh;
 }
