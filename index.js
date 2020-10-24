@@ -2,8 +2,6 @@
 
 const Sentry = require('@sentry/node');
 
- const Sentry = require('@sentry/node');
-
  const Tracing = require("@sentry/tracing");
 const {Pool} = require('pg');
 
@@ -171,8 +169,6 @@ app.use(function onError(err, req, res, next) {
   res.statusCode = 500;
   res.end(res.sentry + "\n");
 });
-
-app.listen(3000, () => {
 
 app.listen(8080, () => {
 
