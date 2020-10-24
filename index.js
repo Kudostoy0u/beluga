@@ -1,10 +1,15 @@
  const express = require('express');
+
 const Sentry = require('@sentry/node');
+
+ const Sentry = require('@sentry/node');
+
  const Tracing = require("@sentry/tracing");
 const {Pool} = require('pg');
 
 require('dotenv').config()
 const bp = require("body-parser")
+//hi
 let cookieParser = require('cookie-parser');
 const path = require("path")
 const app = express();
@@ -166,6 +171,10 @@ app.use(function onError(err, req, res, next) {
   res.statusCode = 500;
   res.end(res.sentry + "\n");
 });
+
 app.listen(3000, () => {
+
+app.listen(8080, () => {
+
   console.log('server started');
 });
