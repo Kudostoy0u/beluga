@@ -101,7 +101,7 @@ pool.connect((err, client, release) => {
     }
     });
     } else {
-            client.query(`SELECT * FROM blogs WHERE verified ORDER BY id DESC`, (err,result) => {
+            client.query(`SELECT * FROM blogs WHERE verified ORDER BY id DESC NULLS LAST`, (err,result) => {
       release()
     if (err) {
       throw err
