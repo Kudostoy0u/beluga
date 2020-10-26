@@ -1,1 +1,1 @@
-# beluga
+# The website for belugas.

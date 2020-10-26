@@ -1,3 +1,7 @@
+.navbar {
+  
+  height:100vw !important;
+}
 .body {
   overflow:hidden;
 }

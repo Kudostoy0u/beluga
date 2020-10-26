@@ -1,7 +1,11 @@
  const express = require('express');
 
 const Sentry = require('@sentry/node');
+
 var compression = require('compression')
+
+
+
  const Tracing = require("@sentry/tracing");
 const {Pool} = require('pg');
 
@@ -102,7 +106,7 @@ pool.connect((err, client, release) => {
     }
     });
     } else {
-            client.query(`SELECT * FROM blogs WHERE verified`, (err,result) => {
+            client.query(`SELECT * FROM blogs WHERE verified ORDER BY id DESC NULLS LAST`, (err,result) => {
       release()
     if (err) {
       throw err
