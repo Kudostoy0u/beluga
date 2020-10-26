@@ -1,14 +1,7 @@
  const express = require('express');
-
 const Sentry = require('@sentry/node');
-
-var compression = require('compression')
-
-
-
  const Tracing = require("@sentry/tracing");
 const {Pool} = require('pg');
-
 require('dotenv').config()
 const bp = require("body-parser")
 //hi
@@ -21,7 +14,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
-app.use(compression())
 const pool = new Pool({
   connectionString : process.env.POSTGRES,
   ssl: {
