@@ -1,9 +1,7 @@
  const express = require('express');
 
 const Sentry = require('@sentry/node');
-
- const Sentry = require('@sentry/node');
-
+var compression = require('compression')
  const Tracing = require("@sentry/tracing");
 const {Pool} = require('pg');
 
@@ -19,6 +17,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
+app.use(compression())
 const pool = new Pool({
   connectionString : process.env.POSTGRES,
   ssl: {
@@ -171,8 +170,6 @@ app.use(function onError(err, req, res, next) {
   res.statusCode = 500;
   res.end(res.sentry + "\n");
 });
-
-app.listen(3000, () => {
 
 app.listen(8080, () => {
 
